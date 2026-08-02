@@ -92,50 +92,72 @@ const EXPORT_FIELD_GROUPS = [
 
 const APP_CHANGELOG = [
   {
-    version: "1.1",
-    groups: [
-      {
-        title: "Bedienung am Handy",
-        items: [
-          "Die Tab-Leiste bricht am Handy jetzt um, statt seitlich aus dem Bild zu laufen. Vorher waren die hinteren Tabs auf schmalen Bildschirmen nicht erreichbar.",
-          "Eingabefelder sind am Handy mindestens 16 Pixel groß. Dadurch zoomt der iPhone-Browser beim Antippen eines Feldes nicht mehr ungefragt in die Seite hinein und bleibt danach verschoben stehen."
-        ]
-      }
-    ]
-  },
-  {
     version: "1.0",
     groups: [
       {
         title: "Übersicht",
         items: [
-          "Zusammengeführte Ansicht aller Trainer/Nutzerkonten: Lizenz, Mannschaften, Trainerkodex-Status, Trainerdaten (inkl. Geburtsdatum, Adresse, Telefon, E-Mail sowie Trainerlizenz-, Führerschein- und Führungszeugnis-Status) und Checkliste Zugang/Abgang auf einen Blick. IBAN/Bankverbindung bleiben bewusst ausgeblendet.",
-          "Trainerkodex- und Jugendschutzkonzept-Status (bestätigt am / gültig bis) direkt in der Detailansicht.",
-          "Die Übersichtsliste zeigt pro Person zusätzlich Führungszeugnis- und Jugendschutzkonzept-Status als Badge (neben Kodex, Vertrag und Checkliste).",
-          "Suchfeld und Lizenz-Filter für die Übersichtsliste.",
-          "Der CSV-Export steht nur noch Bearbeitern zur Verfügung — für die reine Sichtgruppe ist der Export-Knopf ausgeblendet.",
-          "Detailansicht pro Trainer mit allen Quellen (zusätzlich Personalkosten-Saison und Kadermanager-Rolle) — bearbeitet wird weiterhin nur in der jeweiligen Quell-App, die Personalakte selbst ist rein lesende Aggregation."
+          "Zusammengeführte Sicht auf alle Trainer- und Nutzerkonten: Lizenz, Mannschaften, Trainerkodex, Trainerdaten samt Geburtsdatum, Adresse, Telefon und E-Mail sowie der Stand von Trainerlizenz, Führerschein und Führungszeugnis — dazu die Checkliste für Zugang und Abgang.",
+          "Bankverbindung und IBAN bleiben bewusst außen vor. Sie tauchen in diesem Werkzeug nirgends auf, auch nicht im Export.",
+          "Trainerkodex und Jugendschutzkonzept stehen mit „bestätigt am“ und „gültig bis“ in der Detailansicht.",
+          "Die Liste zeigt je Person Kennzeichen für Kodex, Vertrag, Checkliste, Führungszeugnis und Jugendschutzkonzept.",
+          "Suchfeld und Filter nach Lizenz.",
+          "Detailansicht je Trainer mit allen Quellen, zusätzlich Personalkosten-Saison und Rolle im Kadermanager."
+        ]
+      },
+      {
+        title: "Nur lesen, nicht ändern",
+        items: [
+          "Die Personalakte führt Daten aus mehreren Werkzeugen zusammen und zeigt sie an. Geändert wird immer in der Quelle — in Trainerdaten, in der TrainerCheckliste, in den Personalkosten.",
+          "So gibt es zu jeder Angabe genau einen Ort, an dem sie gepflegt wird."
         ]
       },
       {
         title: "Dokumente",
         items: [
-          "Trainerlizenz, Führerschein und Führungszeugnis lassen sich direkt aus der Trainerdaten-Karte öffnen — Führungszeugnis und Trainerlizenz nur für Admins, Führerschein für Admins und die Gruppe „Führerschein Einsicht“ (Rechte serverseitig geprüft).",
-          "Admins können ein unbrauchbares Dokument (unscharfes Foto, falsche Datei, veralteter Stand) direkt löschen — die Person sieht es danach wieder als offen und kann ein neues hochladen."
-        ]
-      },
-      {
-        title: "CSV-Export",
-        items: [
-          "Konfigurierbarer CSV-Export der Trainer-Übersicht – jedes Feld (Stammdaten, Archivierung, Trainerkodex & Jugendschutz, Trainerdaten/Vertrag, Dokumente, TrainerCheckliste, Personalkosten) einzeln per Checkbox wählbar, berücksichtigt die aktuelle Such-/Lizenzfilter-Einstellung. IBAN/Bankverbindung sind wie überall in Personalakte nicht Teil der Daten."
+          "Trainerlizenz, Führerschein und Führungszeugnis lassen sich direkt aus der Trainerdaten-Karte öffnen.",
+          "Führungszeugnis und Trainerlizenz sehen nur Administratoren, den Führerschein zusätzlich die Gruppe „Führerschein Einsicht“. Geprüft wird das auf dem Server, nicht nur am Bildschirm.",
+          "Ein unbrauchbares Dokument — unscharfes Foto, falsche Datei, veralteter Stand — lässt sich löschen. Die Person sieht es danach wieder als offen und kann ein neues hochladen."
         ]
       },
       {
         title: "Archiv",
         items: [
-          "Trainer, die den Verein verlassen, lassen sich archivieren: das zentrale Konto wird für den Login gesperrt, ein Datenschnappschuss wandert ins Archiv.",
-          "Gruppenzugehörigkeiten bleiben beim Archivieren unangetastet.",
-          "Archivierte Trainer lassen sich jederzeit wieder reaktivieren — der Login funktioniert danach sofort wieder."
+          "Trainer, die den Verein verlassen, lassen sich archivieren: das zentrale Konto wird für die Anmeldung gesperrt, und ein Datenschnappschuss wandert ins Archiv.",
+          "Die Gruppenzugehörigkeiten bleiben dabei unangetastet.",
+          "Archivierte Trainer lassen sich jederzeit reaktivieren — die Anmeldung funktioniert danach sofort wieder."
+        ]
+      },
+      {
+        title: "Export",
+        items: [
+          "CSV-Export der Trainer-Übersicht, frei zusammenstellbar: Stammdaten, Archivierung, Trainerkodex und Jugendschutz, Trainerdaten und Vertrag, Dokumente, TrainerCheckliste und Personalkosten sind einzeln wählbar.",
+          "Der Export übernimmt die eingestellte Suche und den Lizenzfilter.",
+          "Bankverbindung und IBAN sind auch hier nicht enthalten."
+        ]
+      },
+      {
+        title: "Wer darf was",
+        items: [
+          "Das Werkzeug ist nur für die freigegebene Gruppe sichtbar, weil es Personaldaten zusammenführt.",
+          "Sehen: Übersicht und Detailansichten.",
+          "Bearbeiten: zusätzlich der CSV-Export sowie Archivieren und Reaktivieren.",
+          "Der Zugriff auf die einzelnen Dokumente hängt an eigenen, engeren Rechten (siehe oben).",
+          "Der Reiter „Info“ ist für alle sichtbar."
+        ]
+      },
+      {
+        title: "Bedienung am Handy",
+        items: [
+          "Die Reiterleiste bricht am Handy um, statt seitlich aus dem Bild zu laufen — auch die hinteren Reiter sind auf schmalen Bildschirmen erreichbar.",
+          "Eingabefelder sind mindestens 16 Pixel groß, damit der iPhone-Browser beim Antippen nicht ungefragt in die Seite hineinzoomt und verschoben stehen bleibt."
+        ]
+      },
+      {
+        title: "Daten & Speicherung",
+        items: [
+          "Die Angaben werden bei jedem Aufruf frisch aus den Quell-Werkzeugen geholt; die Personalakte hält keine eigene zweite Kopie.",
+          "Zugang über die zentrale Anmeldung der Tools-Übersicht — ein eigenes Passwort braucht es nicht."
         ]
       }
     ]
