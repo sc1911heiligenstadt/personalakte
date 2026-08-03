@@ -104,13 +104,6 @@ function setupTabs() {
     b.addEventListener("click", () => activateTab(b.dataset.tab));
   });
 
-  const versionBadgeHeader = document.getElementById("version-badge");
-  const openVersionHistory = () => activateTab("info");
-  versionBadgeHeader.addEventListener("click", openVersionHistory);
-  versionBadgeHeader.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openVersionHistory(); }
-  });
-
   document.getElementById("btn-detail-back").addEventListener("click", () => activateTab(detailReturnTab));
 }
 
@@ -566,7 +559,6 @@ function showConnectScreen(errorMsg) {
 }
 
 async function init() {
-  document.getElementById("version-badge").textContent = "v" + APP_VERSION;
   document.getElementById("version-badge-2").textContent = "v" + APP_VERSION;
   renderChangelog();
   setupTabs();
