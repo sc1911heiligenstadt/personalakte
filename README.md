@@ -13,9 +13,9 @@ Zusätzlich: Trainer, die den Verein verlassen, lassen sich archivieren (Login
 wird gesperrt, ein Datenschnappschuss bleibt erhalten) und bei Rückkehr wieder
 reaktivieren.
 
-Teil der [ToolsUebersicht](https://github.com/Tecko1985/ToolsUebersicht)-
+Teil der [ToolsUebersicht](https://github.com/sc1911heiligenstadt/ToolsUebersicht)-
 Gateway-Familie: Login und Datenzugriff laufen über das zentrale
 ToolsUebersicht-Konto, kein separates Passwort auf diesem Gerät nötig. Nur für
 Mitglieder der Gruppen Geschäftsstelle/Führung (oder Admin) sichtbar.
 
-Live unter https://tecko1985.github.io/personalakte/.
+Live unter https://sc1911heiligenstadt.github.io/personalakte/.

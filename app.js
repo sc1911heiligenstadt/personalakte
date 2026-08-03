@@ -14,10 +14,10 @@ let currentDetailUsername = null;
 let detailReturnTab = "uebersicht";
 
 const SOURCE_URLS = {
-  trainerdaten: "https://tecko1985.github.io/Trainerdaten/",
-  trainercheckliste: "https://tecko1985.github.io/TrainerCheckliste/",
-  personalkosten: "https://tecko1985.github.io/Personalkosten/",
-  kadermanager: "https://tecko1985.github.io/kadermanager/"
+  trainerdaten: "https://sc1911heiligenstadt.github.io/Trainerdaten/",
+  trainercheckliste: "https://sc1911heiligenstadt.github.io/TrainerCheckliste/",
+  personalkosten: "https://sc1911heiligenstadt.github.io/Personalkosten/",
+  kadermanager: "https://sc1911heiligenstadt.github.io/kadermanager/"
 };
 
 function escapeHtml(s) {
