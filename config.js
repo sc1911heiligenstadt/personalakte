@@ -92,6 +92,17 @@ const EXPORT_FIELD_GROUPS = [
 
 const APP_CHANGELOG = [
   {
+    version: "1.1",
+    groups: [
+      {
+        title: "Die Trainerübersicht ist schneller da",
+        items: [
+          "Beim Öffnen wurde erst das eigene Konto abgefragt und danach die Trainerübersicht. Die zweite Abfrage wartet auf die erste nicht — jetzt laufen beide gemeinsam los."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.0",
     groups: [
       {

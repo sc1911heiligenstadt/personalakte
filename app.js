@@ -537,8 +537,9 @@ async function doReactivate(username) {
 
 // ---------- Laden ----------
 
-async function loadOverviewAndRender() {
-  const overview = await fetchOverview();
+// vorabP: ein bereits gestarteter Uebersichts-Aufruf (siehe init).
+async function loadOverviewAndRender(vorabP) {
+  const overview = await (vorabP || fetchOverview());
   allTrainers = Array.isArray(overview.trainers) ? overview.trainers : [];
   populateLizenzFilter();
   renderUebersicht();
@@ -592,8 +593,17 @@ async function init() {
     return;
   }
 
+  // ⚠️ Bis 2026-08-28 lief die Trainer-Uebersicht erst NACH me an, obwohl sie
+  // nicht darauf wartet -- ein voller Roundtrip (~180 ms) zu viel. Jetzt starten
+  // beide gemeinsam, ausgewertet wird in der bisherigen Reihenfolge (me zuerst,
+  // weil der Export-Knopf an canEdit haengt).
+  const meP = fetchMe();
+  meP.catch(() => {}); // Platzhalter gegen unhandled rejection, falls me zuerst wirft
+  const overviewP = fetchOverview();
+  overviewP.catch(() => {});
+
   try {
-    const me = await fetchMe();
+    const me = await meP;
     currentUsername = me.username;
     currentIsAdmin = !!me.isAdmin;
     currentCanEdit = !!me.canEdit;
@@ -603,7 +613,7 @@ async function init() {
     // Umkehr von "Export ist keine Änderung"): die Sichtgruppe darf die
     // Übersicht ansehen, aber nicht als CSV abziehen.
     document.getElementById("btn-export-toggle").style.display = canEdit() ? "" : "none";
-    await loadOverviewAndRender();
+    await loadOverviewAndRender(overviewP);
     showApp();
     renderHeaderUser();
   } catch (e) {
