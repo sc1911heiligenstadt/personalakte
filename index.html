@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>🗂️ Personalakte</title>
+<meta name="theme-color" content="#1a56a0" />
+<link rel="stylesheet" href="style.css?v=1.0" />
+</head>
+<body>
+
+<header>
+  <h1>🗂️ Personalakte</h1>
+  <a href="https://sc1911heiligenstadt.github.io/ToolsUebersicht/" class="back-to-dashboard">← Zurück zum Dashboard</a>
+  <div class="header-right">
+    <span class="header-user" id="header-user"></span>
+    <img class="header-logo" src="https://sc1911heiligenstadt.github.io/logo.svg" alt="1. SC 1911 Heiligenstadt e.V." />
+  </div>
+</header>
+
+<!-- Verbindungs-Screen -->
+<div class="connect-screen" id="connect-screen">
+  <div class="card" id="cloud-login-section">
+    <h2>Anmeldung erforderlich</h2>
+    <p class="muted">
+      Die Personalakte ist ein internes Übersichts-Tool für die Geschäftsstelle/
+      Führung und liegt in der Vereins-Nextcloud. Melde dich einmalig in der
+      <strong>Tools-Übersicht</strong> an – danach wird diese Seite automatisch
+      geladen, ganz ohne Zugangsdaten oder App-Passwort auf diesem Gerät.
+    </p>
+    <div class="btn-row" style="justify-content:flex-start;">
+      <a class="btn" href="https://sc1911heiligenstadt.github.io/ToolsUebersicht/">Zur Tools-Übersicht &amp; anmelden</a>
+    </div>
+    <p class="muted" id="cloud-error" style="display:none; color:#c0392b; margin-top:12px;"></p>
+  </div>
+</div>
+
+<!-- App -->
+<div id="app-shell" style="display:none;">
+  <nav>
+    <button data-tab="uebersicht" class="active">Übersicht</button>
+    <button data-tab="archiv">Archiv</button>
+    <button data-tab="info" style="margin-left:auto;">Info</button>
+  </nav>
+  <main>
+
+    <section class="tab-section active" id="tab-uebersicht">
+
+      <div class="card">
+        <div class="card-header-row">
+          <h2>Aktive Trainer</h2>
+          <select id="filter-lizenz">
+            <option value="">Alle Lizenzen</option>
+          </select>
+        </div>
+        <input type="text" id="filter-suche" class="search-input" placeholder="Name suchen…" />
+        <div class="btn-row" style="justify-content:flex-start; margin:-6px 0 14px;">
+          <button type="button" class="btn secondary small" id="btn-export-toggle">CSV-Export…</button>
+        </div>
+        <div id="export-panel" style="display:none; margin-bottom:16px;">
+          <div class="card-header-row" style="margin-bottom:10px;">
+            <h3 style="margin:0;">CSV-Export – Felder auswählen</h3>
+            <div class="btn-row">
+              <button type="button" class="btn secondary small" id="btn-export-felder-alle">Alle</button>
+              <button type="button" class="btn secondary small" id="btn-export-felder-keine">Keine</button>
+            </div>
+          </div>
+          <div id="export-field-groups"></div>
+          <p class="muted" id="export-info-line" style="margin:10px 0 14px;"></p>
+          <button type="button" class="btn success small" id="btn-export-csv">CSV exportieren</button>
+        </div>
+        <div class="empty-state" id="uebersicht-empty" style="display:none;">Keine Trainer für diese Suche/diesen Filter.</div>
+        <div id="uebersicht-rows"></div>
+      </div>
+
+
+    </section>
+
+    <section class="tab-section" id="tab-archiv">
+
+      <div class="card">
+        <h2>Archivierte Trainer</h2>
+        <p class="muted">Archivierte Konten können sich nicht mehr anmelden. Gruppenzugehörigkeiten bleiben erhalten — beim Reaktivieren ist also nichts wiederherzustellen.</p>
+        <input type="text" id="archiv-suche" class="search-input" placeholder="Name suchen…" />
+        <div class="empty-state" id="archiv-empty" style="display:none;">Keine archivierten Trainer.</div>
+        <div id="archiv-rows"></div>
+      </div>
+
+    </section>
+
+    <!-- ---------- Info ---------- -->
+    <section class="tab-section" id="tab-info">
+      <div class="card">
+        <h2>Über die Personalakte <span class="version-badge" id="version-badge-2"></span></h2>
+        <p class="muted">
+            Trainerübersicht über alle Tools hinweg, inklusive Archiv.
+            Zusammengeführt wird, was in den Fachwerkzeugen steht — Stammdaten aus Trainerdaten,
+            Aufwandsentschädigungen aus Personalkosten, der On-/Offboarding-Stand aus der
+            TrainerCheckliste. Geändert wird deshalb immer dort, wo die Angabe hingehört.
+            Hier entschieden wird nur eines: ob eine Person aktiv ist oder ins Archiv wandert.
+          </p>
+      </div>
+      <div class="card">
+        <h2>Änderungen</h2>
+        <div id="changelog-list"></div>
+      </div>
+    
+      <div class="card" id="ds-info-karte">
+        <h2>Datenschutz</h2>
+        <p>Dieses Werkzeug gehört zu den internen Anwendungen des
+        1. SC 1911 Heiligenstadt. Die hier erfassten Daten werden
+        ausschließlich für die Vereinsarbeit verwendet und liegen auf Servern
+        in Deutschland, die ein Auftragsverarbeiter für den Verein betreibt.
+        Eine Weitergabe an Dritte findet nur statt, soweit sie für den
+        jeweiligen Zweck erforderlich oder gesetzlich vorgeschrieben ist.</p>
+        <p>Verantwortlich ist der 1. SC 1911 Heiligenstadt, Leineberg 2,
+        37308 Heilbad Heiligenstadt, Telefon 03606 612206,
+        <a href="mailto:info@sc1911-heiligenstadt.de">info@sc1911-heiligenstadt.de</a>.
+        Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
+        Datenübertragbarkeit und Widerspruch lassen sich unter dieser
+        Anschrift geltend machen. Beschwerden nimmt der Thüringer
+        Landesbeauftragte für den Datenschutz und die Informationsfreiheit
+        entgegen.</p>
+        <p><a href="https://www.sc1911-heiligenstadt.de/datenschutz/" target="_blank" rel="noopener">Datenschutzerklärung des Vereins</a>
+        &middot;
+        <a href="https://www.sc1911-heiligenstadt.de/impressum-2/" target="_blank" rel="noopener">Impressum</a></p>
+      </div>
+</section>
+
+    <section class="tab-section" id="tab-detail">
+
+      <div class="btn-row" style="justify-content:flex-start; margin-bottom:14px;">
+        <button type="button" class="btn secondary small" id="btn-detail-back">← Zurück zur Übersicht</button>
+      </div>
+
+      <div class="card" id="detail-stammdaten"></div>
+      <div class="card" id="detail-trainerkodex"></div>
+      <div class="card" id="detail-trainerdaten"></div>
+      <div class="card" id="detail-trainercheckliste"></div>
+      <div class="card" id="detail-personalkosten"></div>
+      <div class="card" id="detail-kadermanager"></div>
+
+      <div class="card" id="detail-actions"></div>
+
+    </section>
+
+  </main>
+</div>
+
+<script src="config.js?v=1.0"></script>
+<script src="db.js?v=1.0"></script>
+<script src="app.js?v=1.0"></script>
+</body>
+</html>
