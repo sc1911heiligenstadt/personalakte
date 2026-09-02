@@ -92,29 +92,6 @@ const EXPORT_FIELD_GROUPS = [
 
 const APP_CHANGELOG = [
   {
-    version: "1.2",
-    groups: [
-      {
-        title: "Der Reiter „Info“ erklärt jetzt, was die App wirklich tut",
-        items: [
-          "Dort stand bisher ein einzelner Satz. Jetzt steht da, wofür die einzelnen Reiter da sind, was die App mit den Eingaben macht und wo etwas anderes hingehört.",
-          "Am Funktionsumfang ändert sich nichts — nur an der Beschreibung."
-        ]
-      }
-    ]
-  },
-  {
-    version: "1.1",
-    groups: [
-      {
-        title: "Die Trainerübersicht ist schneller da",
-        items: [
-          "Beim Öffnen wurde erst das eigene Konto abgefragt und danach die Trainerübersicht. Die zweite Abfrage wartet auf die erste nicht — jetzt laufen beide gemeinsam los."
-        ]
-      }
-    ]
-  },
-  {
     version: "1.0",
     groups: [
       {
@@ -125,14 +102,16 @@ const APP_CHANGELOG = [
           "Trainerkodex und Jugendschutzkonzept stehen mit „bestätigt am“ und „gültig bis“ in der Detailansicht.",
           "Die Liste zeigt je Person Kennzeichen für Kodex, Vertrag, Checkliste, Führungszeugnis und Jugendschutzkonzept.",
           "Suchfeld und Filter nach Lizenz.",
-          "Detailansicht je Trainer mit allen Quellen, zusätzlich Personalkosten-Saison und Rolle im Kadermanager."
+          "Detailansicht je Trainer mit allen Quellen, zusätzlich Personalkosten-Saison und Rolle im Kadermanager.",
+          "Jede Karte der Detailansicht hat einen Knopf, der das zuständige Werkzeug öffnet — Trainerdaten, TrainerCheckliste, Personalkosten oder Kadermanager."
         ]
       },
       {
         title: "Nur lesen, nicht ändern",
         items: [
           "Die Personalakte führt Daten aus mehreren Werkzeugen zusammen und zeigt sie an. Geändert wird immer in der Quelle — in Trainerdaten, in der TrainerCheckliste, in den Personalkosten.",
-          "So gibt es zu jeder Angabe genau einen Ort, an dem sie gepflegt wird."
+          "So gibt es zu jeder Angabe genau einen Ort, an dem sie gepflegt wird.",
+          "Eigene Entscheidungen trifft die Personalakte nur zwei: ob eine Person aktiv oder archiviert ist, und ob ein hinterlegtes Dokument wieder verschwindet."
         ]
       },
       {
@@ -146,15 +125,16 @@ const APP_CHANGELOG = [
       {
         title: "Archiv",
         items: [
-          "Trainer, die den Verein verlassen, lassen sich archivieren: das zentrale Konto wird für die Anmeldung gesperrt, und ein Datenschnappschuss wandert ins Archiv.",
-          "Die Gruppenzugehörigkeiten bleiben dabei unangetastet.",
+          "Trainer, die den Verein verlassen, lassen sich archivieren: das zentrale Konto wird für die Anmeldung gesperrt, und ein Datenschnappschuss wandert ins Archiv. Ein Grund lässt sich dabei angeben.",
+          "Die Gruppenzugehörigkeiten bleiben dabei unangetastet — beim Reaktivieren ist nichts wiederherzustellen.",
+          "Der Reiter „Archiv“ listet die archivierten Konten mit eigenem Suchfeld.",
           "Archivierte Trainer lassen sich jederzeit reaktivieren — die Anmeldung funktioniert danach sofort wieder."
         ]
       },
       {
         title: "Export",
         items: [
-          "CSV-Export der Trainer-Übersicht, frei zusammenstellbar: Stammdaten, Archivierung, Trainerkodex und Jugendschutz, Trainerdaten und Vertrag, Dokumente, TrainerCheckliste und Personalkosten sind einzeln wählbar.",
+          "CSV-Export der Trainer-Übersicht, frei zusammenstellbar: Stammdaten, Archivierung, Trainerkodex und Jugendschutz, Trainerdaten und Vertrag, Dokumente, TrainerCheckliste und Personalkosten sind einzeln wählbar; „Alle“ und „Keine“ setzen die Auswahl auf einen Schlag.",
           "Der Export übernimmt die eingestellte Suche und den Lizenzfilter.",
           "Bankverbindung und IBAN sind auch hier nicht enthalten."
         ]
@@ -163,17 +143,18 @@ const APP_CHANGELOG = [
         title: "Wer darf was",
         items: [
           "Das Werkzeug ist nur für die freigegebene Gruppe sichtbar, weil es Personaldaten zusammenführt.",
-          "Sehen: Übersicht und Detailansichten.",
+          "Sehen: Übersicht, Archiv und Detailansichten.",
           "Bearbeiten: zusätzlich der CSV-Export sowie Archivieren und Reaktivieren.",
           "Der Zugriff auf die einzelnen Dokumente hängt an eigenen, engeren Rechten (siehe oben).",
-          "Der Reiter „Info“ ist für alle sichtbar."
+          "Der Reiter „Info“ ist für alle sichtbar. Dort stehen eine Kurzbeschreibung, diese Änderungsliste und der Datenschutzhinweis des Vereins."
         ]
       },
       {
         title: "Bedienung am Handy",
         items: [
           "Die Reiterleiste bricht am Handy um, statt seitlich aus dem Bild zu laufen — auch die hinteren Reiter sind auf schmalen Bildschirmen erreichbar.",
-          "Eingabefelder sind mindestens 16 Pixel groß, damit der iPhone-Browser beim Antippen nicht ungefragt in die Seite hineinzoomt und verschoben stehen bleibt."
+          "Eingabefelder sind groß genug, dass der iPhone-Browser beim Antippen nicht ungefragt in die Seite hineinzoomt.",
+          "Ein Dokument öffnet sich auch auf dem iPhone in einem neuen Reiter, statt vom Browser stillschweigend geblockt zu werden."
         ]
       },
       {
