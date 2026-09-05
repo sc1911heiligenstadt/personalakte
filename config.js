@@ -92,6 +92,19 @@ const EXPORT_FIELD_GROUPS = [
 
 const APP_CHANGELOG = [
   {
+    version: "1.1",
+    groups: [
+      {
+        title: "Trainerlizenz",
+        items: [
+          "Die Trainerlizenz zeigt jetzt, ob sie noch gilt. Vorher stand dort nur „Hochgeladen am …“ — eine längst abgelaufene Lizenz sah damit aus wie eine gültige.",
+          "Wer in Trainerdaten angehakt hat, dass er keine Lizenz besitzt, steht jetzt als „Keine Trainerlizenz vorhanden (bestätigt)“ da. Vorher bekam er dasselbe rote „fehlt“ wie jemand, der nie etwas hochgeladen hat.",
+          "Ist die Art der Lizenz hinterlegt, steht sie mit in der Zeile."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.0",
     groups: [
       {

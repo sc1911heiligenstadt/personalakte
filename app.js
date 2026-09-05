@@ -48,6 +48,17 @@ function fmtBirthdate(isoDate) {
   return m ? `${m[3]}.${m[2]}.${m[1]}` : "—";
 }
 
+// Läuft ein reines "YYYY-MM-DD"-Ablaufdatum in der Vergangenheit? Wortgleich zu
+// Trainerdatens _dateOnlyIsPast (app.js:719): reiner String-Vergleich gegen das
+// lokale Heute, damit keine Zeitzone einen Tag verschiebt. Ein leeres oder
+// unbekanntes Format gilt NICHT als abgelaufen.
+function dateOnlyIsPast(iso) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(iso || "")) return false;
+  const d = new Date();
+  const today = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  return iso < today;
+}
+
 function fullName(t) {
   return `${t.vorname || ""} ${t.nachname || ""}`.trim() || t.username;
 }
@@ -359,11 +370,32 @@ function renderDetail(t) {
     ["Telefon", escapeHtml(t.trainerdaten.telefon || "—")],
     ["E-Mail", escapeHtml(t.trainerdaten.email || "—")]
   ]);
+  // Trainerlizenz hat DREI Zustände, nicht zwei (Bugfix 2026-09-05, gleiche drei
+  // Zweige wie Trainerdatens _renderTrainerDocumentsStatus, app.js:1063-1085):
+  // hochgeladen (mit Ablauf-Badge, sofern trainerlizenzGueltigBis gesetzt ist),
+  // ausdrücklich "keine vorhanden" (kein Versäumnis) und gar nichts hinterlegt.
+  // Vorher wurde nur trainerlizenzHochgeladenAm gelesen -- eine abgelaufene Lizenz
+  // sah aus wie eine gültige, ein bestätigtes "keine Lizenz" wie ein Versäumnis.
+  const tlAbgelaufen = dateOnlyIsPast(t.trainerdaten.trainerlizenzGueltigBis);
+  const tlArtTeil = t.trainerdaten.trainerlizenzArt
+    ? " · " + escapeHtml(t.trainerdaten.trainerlizenzArt)
+    : "";
+  let trainerlizenzWert;
+  if (t.trainerdaten.trainerlizenzHochgeladenAm) {
+    trainerlizenzWert = escapeHtml(`Hochgeladen am ${fmtDateOnly(t.trainerdaten.trainerlizenzHochgeladenAm)}`) + tlArtTeil;
+    if (t.trainerdaten.trainerlizenzGueltigBis) {
+      trainerlizenzWert += " · " + (tlAbgelaufen
+        ? badge("fehlt", "Abgelaufen seit " + fmtBirthdate(t.trainerdaten.trainerlizenzGueltigBis))
+        : badge("ok", "Gültig bis " + fmtBirthdate(t.trainerdaten.trainerlizenzGueltigBis)));
+    }
+  } else if (t.trainerdaten.trainerlizenzNichtVorhanden) {
+    trainerlizenzWert = badge("ok", "Keine Trainerlizenz vorhanden (bestätigt)");
+  } else {
+    trainerlizenzWert = badge("fehlt", "Keine Trainerlizenz hinterlegt");
+  }
   const docStatusHtml =
     docStatusRow("Trainerlizenz",
-      t.trainerdaten.trainerlizenzHochgeladenAm
-        ? escapeHtml(`Hochgeladen am ${fmtDateOnly(t.trainerdaten.trainerlizenzHochgeladenAm)}`)
-        : badge("fehlt", "Keine Trainerlizenz hinterlegt"),
+      trainerlizenzWert,
       docActions("trainerlizenz", "Trainerlizenz", t.trainerdaten.trainerlizenzHochgeladenAm)) +
     docStatusRow("Führerschein",
       t.trainerdaten.fuehrerscheinHochgeladenAm
