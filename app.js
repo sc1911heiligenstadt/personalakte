@@ -171,11 +171,40 @@ function renderUebersicht() {
 
 // ---------- CSV-Export (konfigurierbar) ----------
 // Jedes Feld einzeln per Checkbox wählbar (EXPORT_FIELD_GROUPS in config.js).
-// Exportiert immer genau die aktuell gefilterte/gesuchte Übersicht (filteredTrainers()) —
-// die Archiv-Liste hat einen eigenen Filter/eigene Ansicht und ist bewusst nicht Teil
-// dieses Exports.
+// Exportiert die aktuell gefilterte/gesuchte Übersicht (filteredTrainers()) — und
+// auf Wunsch die Archivierten dazu (Haken "Archivierte Trainer mit exportieren").
+//
+// ⚠️ Bugfix 2026-09-05: Der Export nahm ausschließlich filteredTrainers(), und das
+// beginnt mit `.filter(t => !t.archiviert)`. Das Panel bot trotzdem die ganze
+// Gruppe „Archivierung" (Archiviert am/Grund/von) und die Spalte „Status" an — in
+// der exportierten Menge war per Konstruktion nie ein archivierter Trainer, also
+// blieben die drei Spalten in JEDER Zeile leer und „Status" sagte in jeder Zeile
+// „Aktiv". Wer wissen wollte, wer wann und warum gegangen ist, las aus der leeren
+// Spalte „niemand". Ohne Haken bleibt alles wie vorher.
 function getPath(obj, path) {
   return path.split(".").reduce((o, k) => (o == null ? undefined : o[k]), obj);
+}
+function exportArchivierteMit() {
+  const cb = document.getElementById("export-archivierte");
+  return !!(cb && cb.checked);
+}
+// Dieselbe Suche/derselbe Lizenzfilter wie filteredTrainers(), nur die andere
+// Hälfte des Bestands — damit der Haken nicht heimlich am Filter vorbeiexportiert.
+function archivierteTrainers() {
+  const suche = ubersichtSuche.trim().toLowerCase();
+  return allTrainers
+    .filter((t) => t.archiviert)
+    .filter((t) => !ubersichtLizenz || t.lizenz === ubersichtLizenz)
+    .filter((t) => !suche || fullName(t).toLowerCase().includes(suche))
+    .sort((a, b) => a.nachname.localeCompare(b.nachname, "de"));
+}
+// Einzige Quelle für "was geht in die CSV" — genutzt von exportTrainerCsv UND von
+// updateExportInfoLine, damit die angekündigte Zeilenzahl und die Datei nie
+// auseinanderlaufen.
+function exportTrainers() {
+  return exportArchivierteMit()
+    ? filteredTrainers().concat(archivierteTrainers())
+    : filteredTrainers();
 }
 function initExportPanel() {
   renderExportFieldCheckboxes();
@@ -187,6 +216,7 @@ function initExportPanel() {
   });
   document.getElementById("btn-export-felder-alle").addEventListener("click", () => setAllExportCheckboxes(true));
   document.getElementById("btn-export-felder-keine").addEventListener("click", () => setAllExportCheckboxes(false));
+  document.getElementById("export-archivierte").addEventListener("change", updateExportInfoLine);
   document.getElementById("btn-export-csv").addEventListener("click", exportTrainerCsv);
 }
 function renderExportFieldCheckboxes() {
@@ -212,8 +242,10 @@ function updateExportInfoLine() {
   if (!el) return;
   const total = document.querySelectorAll(".export-field-cb").length;
   const checked = document.querySelectorAll(".export-field-cb:checked").length;
-  const rowCount = filteredTrainers().length;
-  el.textContent = `${checked} von ${total} Feldern ausgewählt · exportiert ${rowCount} Trainer (aktuelle Suche/Filter).`;
+  const rows = exportTrainers();
+  const archivAnzahl = rows.filter((t) => t.archiviert).length;
+  el.textContent = `${checked} von ${total} Feldern ausgewählt · exportiert ${rows.length} Trainer (aktuelle Suche/Filter)`
+    + (archivAnzahl ? `, davon ${archivAnzahl} archiviert.` : ".");
 }
 function csvCell(value) {
   const s = value == null ? "" : String(value);
@@ -252,7 +284,7 @@ function exportFieldValue(f, t) {
 function exportTrainerCsv() {
   const selectedKeys = Array.from(document.querySelectorAll(".export-field-cb:checked")).map((cb) => cb.dataset.field);
   if (!selectedKeys.length) { alert("Bitte mindestens ein Feld für den Export auswählen."); return; }
-  const rows = filteredTrainers();
+  const rows = exportTrainers();
   if (!rows.length) { alert("Die aktuelle Suche/Filterung ergibt keine Treffer zum Exportieren."); return; }
 
   const fieldLookup = new Map(EXPORT_FIELD_GROUPS.flatMap((g) => g.fields).map((f) => [f.key, f]));

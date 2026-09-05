@@ -92,6 +92,20 @@ const EXPORT_FIELD_GROUPS = [
 
 const APP_CHANGELOG = [
   {
+    version: "1.2",
+    groups: [
+      {
+        title: "Export",
+        items: [
+          "Neuer Haken „Archivierte Trainer mit exportieren“ im Export-Panel.",
+          "Vorher war das ein Weg ins Leere: Man konnte die Felder „Archiviert am“, „Archivierungsgrund“ und „Archiviert von“ anhaken, exportiert wurden aber nur aktive Trainer. Die drei Spalten blieben in jeder Zeile leer, und „Status“ sagte in jeder Zeile „Aktiv“. Wer wissen wollte, wer wann und warum gegangen ist, las aus der leeren Spalte „niemand“.",
+          "Die Zeile unter den Feldern sagt jetzt dazu, wie viele der Zeilen archiviert sind.",
+          "Ohne Haken bleibt alles wie bisher: nur die aktiven Trainer der eingestellten Suche."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.1",
     groups: [
       {
