@@ -188,6 +188,10 @@ button.btn:disabled { opacity: 0.6; cursor: default; }
 .status-badge.status-fehlt { background: var(--red-light); color: var(--red); }
 .status-badge.status-archiviert { background: var(--red-light); color: var(--red); }
 .status-badge.status-aktiv { background: var(--green-light); color: var(--green); }
+/* Weder erfüllt noch offen: hier ist einfach nichts zu tun. Deshalb grau und
+   nicht grün — ein grünes Abzeichen sähe aus wie ein erledigter Vertrag.
+   ⚠️ --gray ist eine HINTERGRUNDfarbe, gedämpfte Schrift ist --muted. */
+.status-badge.status-neutral { background: var(--gray); color: var(--muted); }
 
 /* ---------- Detailansicht: Karten mit Key-Value-Zeilen ---------- */
 

@@ -67,6 +67,23 @@ function badge(kind, text) {
   return `<span class="status-badge status-${kind}">${escapeHtml(text)}</span>`;
 }
 
+// ⚠️ „Nur Kontaktdaten" ist KEIN offener Vertrag. Wer nicht vertragspflichtig
+// ist — Geschäftsstelle, Vorstand, Helfer —, bekommt nie einen; ein dauerhaft
+// gelbes „Vertrag ausstehend" ist dort eine Aufgabe, die niemand erledigen
+// kann. Bis zum 05.09.2026 stand hier eine reine Wenn-nicht-generiert-Regel,
+// und den Status gab das Gateway ohnehin nicht heraus (siehe die Kaskade in
+// buildTrainerdatenSummary, admin-worker.js).
+//
+// Die Reihenfolge zählt: erst gar kein Datensatz, dann keine Vertragspflicht,
+// dann der erzeugte Vertrag. Sonst stünde bei jemandem ohne Vertragspflicht,
+// dem früher einmal ein Vertrag erzeugt wurde, weiter „Vertrag ✓".
+function vertragBadge(t) {
+  if (!t.trainerdaten.vorhanden) return badge("fehlt", "Trainerdaten fehlen");
+  if (t.trainerdaten.status === "kontaktdaten") return badge("neutral", "Kein Vertrag nötig");
+  if (t.trainerdaten.status === "generiert") return badge("ok", "Vertrag ✓");
+  return badge("offen", "Vertrag ausstehend");
+}
+
 // Bestätigungs-Status für Trainerkodex/Jugendschutzkonzept: beides sind Selbst-
 // bestätigungen mit befristeter Gültigkeit (aus Trainerdaten) -- gleiche Darstellung
 // wie dort: "Bestätigt am ... · Gültig bis .../Abgelaufen ...".
@@ -162,7 +179,7 @@ function renderUebersicht() {
         ${t.trainerkodex.bestaetigt ? badge("ok", "Kodex ✓") : badge("offen", "Kodex offen")}
         ${t.trainerdaten.jugendschutzBestaetigtAm ? badge("ok", "Jugendschutz ✓") : badge("offen", "Jugendschutz offen")}
         ${t.trainerdaten.fuehrungszeugnisEingereichtAm ? badge("ok", "Führungszeugnis ✓") : badge("offen", "Führungszeugnis offen")}
-        ${t.trainerdaten.status === "generiert" ? badge("ok", "Vertrag ✓") : (t.trainerdaten.vorhanden ? badge("offen", "Vertrag ausstehend") : badge("fehlt", "Trainerdaten fehlen"))}
+        ${vertragBadge(t)}
         ${trainercheckisteBadges(t)}
       </div>
     </div>
@@ -362,7 +379,9 @@ function renderDetail(t) {
   // statt auf die verwaiste eigenständige App.
   document.getElementById("detail-trainerkodex").innerHTML += `<div class="detail-source-link"><a class="btn secondary small" href="${SOURCE_URLS.trainerdaten}" target="_blank" rel="noopener">In Trainerdaten öffnen</a></div>`;
 
-  const tdStatusLabel = { unvollstaendig: "Unvollständig", ausstehend: "Ausstehend", generiert: "Vertrag generiert" };
+  // ⚠️ VIER Werte, wie _trainerStatus in Trainerdaten. Fehlt einer, gibt die
+  // Zeile darunter den rohen Schlüssel aus ("kontaktdaten").
+  const tdStatusLabel = { unvollstaendig: "Unvollständig", ausstehend: "Ausstehend", generiert: "Vertrag generiert", kontaktdaten: "Nur Kontaktdaten" };
   const docTrainerId = escapeHtml(t.trainerdaten.trainerId || "");
   const docOpenBtn = (docType, label) => `<button type="button" class="btn secondary small doc-open-btn" data-trainer-id="${docTrainerId}" data-doc-type="${docType}">${escapeHtml(label)}</button>`;
   // Löschen ist unwiderruflich und serverseitig Admin-only (siehe
@@ -396,7 +415,11 @@ function renderDetail(t) {
       ? "Unterschrieben am " + escapeHtml(fmtDate(t.trainerdaten.vertragUnterschriebenAm))
       : (t.trainerdaten.vertragPdfBereitgestelltAm
           ? "Bereitgestellt am " + escapeHtml(fmtDate(t.trainerdaten.vertragPdfBereitgestelltAm)) + " (noch nicht unterschrieben)"
-          : (t.trainerdaten.vertragsGeneriert ? "Word-Vertrag generiert" : "Nein"))],
+          : (t.trainerdaten.vertragsGeneriert
+              ? "Word-Vertrag generiert"
+              // „Nein" liest sich hier wie ein Versäumnis. Bei jemandem ohne
+              // Vertragspflicht ist es keins.
+              : (t.trainerdaten.status === "kontaktdaten" ? "Nicht nötig" : "Nein")))],
     ["Geburtsdatum", fmtBirthdate(t.trainerdaten.geburtsdatum)],
     ["Adresse", escapeHtml(tdAdresseParts.join(", ") || "—")],
     ["Telefon", escapeHtml(t.trainerdaten.telefon || "—")],

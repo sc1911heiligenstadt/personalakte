@@ -92,6 +92,19 @@ const EXPORT_FIELD_GROUPS = [
 
 const APP_CHANGELOG = [
   {
+    version: "1.3",
+    groups: [
+      {
+        title: "Kein „Vertrag ausstehend“ mehr für Leute ohne Vertrag",
+        items: [
+          "Wer in den Trainerdaten als „Nur Kontaktdaten“ geführt wird — Geschäftsstelle, Vorstand, Helfer —, trug hier dauerhaft das gelbe Abzeichen „Vertrag ausstehend“. Das war eine Aufgabe, die niemand erledigen kann. Jetzt steht dort grau „Kein Vertrag nötig“.",
+          "In der Detailansicht stand als Status der rohe Wert „kontaktdaten“; jetzt steht dort „Nur Kontaktdaten“. Die Zeile „Vertrag“ sagt in diesem Fall „Nicht nötig“ statt „Nein“.",
+          "Der vierte Status kam bisher gar nicht bis hierher — das Gateway kannte nur drei. Auch das ist behoben."
+        ]
+      }
+    ]
+  },
+  {
     version: "1.2",
     groups: [
       {
