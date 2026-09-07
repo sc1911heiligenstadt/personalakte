@@ -90,7 +90,104 @@ const EXPORT_FIELD_GROUPS = [
   }
 ];
 
+// Was die Personalakte kann -- steht im Info-Reiter als Karte "Funktionen".
+// WICHTIG: Das ist NICHT der Changelog. Hier steht der ZUSTAND ("die Liste zeigt
+// den Kodex-Stand"), dort die Aenderung ("die Liste zeigt den Kodex-Stand JETZT").
+// Wer eine Funktion umbaut oder abschaltet, zieht diesen Text mit -- und ebenso
+// E:\SC1911-Tools-Anleitung.txt, wo dasselbe ausfuehrlich steht.
+const APP_FUNKTIONEN = [
+  {
+    title: "Wofür die Personalakte da ist",
+    items: [
+      "Die appübergreifende Sicht auf die Trainer: Stammdaten, Vertrag, Trainerkodex, On- und Offboarding, Personalkosten, Kadermanager-Rolle und der Stand der Dokumente — alles auf einer Seite.",
+      "Zusammengeführt wird, was in den Fachwerkzeugen steht. Geändert wird immer dort, wo die Angabe hingehört.",
+      "Bankverbindung und IBAN bleiben bewusst draußen. Sie tauchen hier nirgends auf, auch nicht im Export."
+    ]
+  },
+  {
+    title: "Trainerübersicht",
+    items: [
+      "Liste aller Mitglieder der Gruppe „Trainer“ mit Name, Lizenz und Mannschaften.",
+      "Je Person Kennzeichen für Trainerkodex, Vertrag, Checkliste, Führungszeugnis und Jugendschutzkonzept.",
+      "Suchfeld nach Namen und ein Filter nach Lizenz.",
+      "Wer in den Trainerdaten als „Nur Kontaktdaten“ geführt wird, trägt „Kein Vertrag nötig“ statt einer offenen Aufgabe."
+    ]
+  },
+  {
+    title: "Detailansicht je Trainer",
+    items: [
+      "Alle Quellen untereinander: Stammdaten mit Geburtsdatum, Adresse, Telefon und E-Mail, dazu Vertragsstand, Trainerkodex und Jugendschutzkonzept mit „bestätigt am“ und „gültig bis“.",
+      "Dazu die Checkliste für Zugang und Abgang, die Personalkosten der laufenden Saison und die Rolle im Kadermanager.",
+      "Die Trainerlizenz steht mit Lizenzart und Gültigkeit da. Wer in den Trainerdaten bestätigt hat, keine zu besitzen, erscheint als „Keine Trainerlizenz vorhanden (bestätigt)“ und nicht als Lücke.",
+      "Jede Karte hat einen Knopf, der das zuständige Werkzeug öffnet — Trainerdaten, TrainerCheckliste, Personalkosten oder Kadermanager."
+    ]
+  },
+  {
+    title: "Nur lesen, nicht ändern",
+    items: [
+      "Die Personalakte hat kein eigenes Bearbeiten-Formular für die zusammengeführten Felder. So gibt es zu jeder Angabe genau einen Ort, an dem sie gepflegt wird.",
+      "Eigene Entscheidungen trifft sie nur zwei: ob eine Person aktiv oder archiviert ist, und ob ein hinterlegtes Dokument wieder verschwindet."
+    ]
+  },
+  {
+    title: "Dokumente",
+    items: [
+      "Trainerlizenz, Führerschein und Führungszeugnis lassen sich direkt aus der Trainerdaten-Karte öffnen.",
+      "Führungszeugnis und Trainerlizenz sehen nur Administratoren, den Führerschein zusätzlich die Gruppe „Führerschein Einsicht“. Geprüft wird das auf dem Server, nicht nur am Bildschirm.",
+      "Ein unbrauchbares Dokument — unscharfes Foto, falsche Datei, veralteter Stand — lässt sich löschen. Die Person sieht es danach wieder als offen und kann ein neues hochladen."
+    ]
+  },
+  {
+    title: "Archiv",
+    items: [
+      "„Archivieren“ sperrt das zentrale Konto für die Anmeldung und legt einen Datenschnappschuss ab. Ein Grund lässt sich dabei angeben.",
+      "Gruppenzugehörigkeiten bleiben unangetastet — beim Reaktivieren ist nichts wiederherzustellen.",
+      "Der Reiter „Archiv“ listet die archivierten Konten mit eigenem Suchfeld.",
+      "„Reaktivieren“ hebt die Sperre auf; die Anmeldung funktioniert danach sofort wieder."
+    ]
+  },
+  {
+    title: "Export",
+    items: [
+      "CSV-Export der Trainerübersicht, frei zusammenstellbar: Stammdaten, Archivierung, Trainerkodex und Jugendschutz, Trainerdaten und Vertrag, Dokumente, TrainerCheckliste und Personalkosten sind einzeln wählbar; „Alle“ und „Keine“ setzen die Auswahl auf einen Schlag.",
+      "Der Export übernimmt die eingestellte Suche und den Lizenzfilter.",
+      "Ein Haken „Archivierte Trainer mit exportieren“ nimmt die archivierten Konten mit; die Zeile darunter sagt, wie viele davon in der Auswahl stecken.",
+      "Bankverbindung und IBAN sind auch hier nicht enthalten."
+    ]
+  },
+  {
+    title: "Wer darf was",
+    items: [
+      "Das Werkzeug ist nur für eine eigens freigegebene Gruppe sichtbar, weil es Personaldaten zusammenführt.",
+      "Sehen: Übersicht, Archiv und Detailansichten.",
+      "Bearbeiten: zusätzlich der CSV-Export sowie Archivieren und Reaktivieren.",
+      "Der Zugriff auf die einzelnen Dokumente hängt an eigenen, engeren Rechten."
+    ]
+  },
+  {
+    title: "Daten, Speicherung und Bedienung",
+    items: [
+      "Die Angaben werden bei jedem Aufruf frisch aus den Quell-Werkzeugen geholt; die Personalakte hält keine eigene zweite Kopie.",
+      "Zugang über die zentrale Anmeldung der Tools-Übersicht — ein eigenes Passwort braucht es nicht.",
+      "Gedacht ist die Personalakte für den großen Bildschirm. Am Handy bricht die Reiterleiste um, statt seitlich aus dem Bild zu laufen, und ein Dokument öffnet sich auch auf dem iPhone in einem neuen Reiter."
+    ]
+  }
+];
+
 const APP_CHANGELOG = [
+  {
+    version: "1.4",
+    groups: [
+      {
+        title: "Im Info-Reiter steht jetzt, was die App kann",
+        items: [
+          "Die Liste der Änderungen und die Versionsnummer sind aus dem Info-Reiter verschwunden.",
+          "Stattdessen steht dort die Karte „Funktionen“: was die App kann, nach Themen geordnet.",
+          "Was sich geändert hat, steht weiterhin in den Neuigkeiten auf der Startseite der Tools-Übersicht."
+        ]
+      }
+    ]
+  },
   {
     version: "1.3",
     groups: [
